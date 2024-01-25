@@ -8,7 +8,7 @@ $( () => {
    }
 
     const getAllPokemon = async () => {
-        for(let i = 1 ; i < 1025 ; i++){
+        for(let i = 1 ; i <= 1025 ; i++){
             const pokemon = await getData(i);
             createPokemonProfile(pokemon)
         }
@@ -19,8 +19,10 @@ $( () => {
             let pokemonData = await getData(index);
             console.log(pokemonData);
             createPokemonProfile(pokemonData);
+            $('#field').val('');
         } catch (error) {
-            console.error("Error fetching data:", error);
+            $('#field').val('');
+            $('#field').attr("placeholder", "Please enter a whole number from 1 to 1025.")
         }
     }
 
@@ -37,7 +39,7 @@ $( () => {
     $('#search-button').click(async function(){
         $('.main-content').empty();
         let input = $('#field').val();
-        getPokemon(input);
+        getPokemon(input); 
     })
 
     $('#display-button').click(async function(){
