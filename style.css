@@ -4,8 +4,27 @@
     margin: 0;
 }
 
+:root {
+    --green-background: #006A60;
+    --green-main: #84DB9A;
+    --green-accent: #3DB385;
+    --title-blue: #5098DE;
+    --white: #EEF8F8;
+    --yellow: #E3E59C;
+    --red-profile-name: #E2716B;
+    --memo-main-red: #F61B2D;
+    --memo-secondary-orange: #FF9F55;
+    --title-background: linear-gradient(270deg, rgba(0,106,96,1) 38%, rgba(0,146,157,1) 39%, rgba(0,146,157,1) 42%, rgba(80,152,222,1) 44%, rgba(92,159,223,1) 89%, rgba(0,146,157,1) 91%, rgba(0,146,157,1) 93%, rgba(0,106,96,1) 95%);
+}
+
+@font-face {
+    font-family: 'customFont';
+    src: url(pokemon-frlg.ttf);
+}
+
 body {
     background-color: lightblue;
+    font-family: 'CustomFont', sans-serif;
 }
 
 header {
@@ -24,10 +43,6 @@ header {
     width: 100vw;
 }
 
-.main > div, p, button {
-    margin: 8px;
-}
-
 .input {
     display: flex;
     flex-direction: column;
@@ -38,26 +53,27 @@ header {
     height: 80%;
     background-color: cadetblue;
     padding: 20px;
+    gap: 16px;
 }
 
-.input .wrapper {
+.wrapper {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
-    margin-top: 12px;
+    gap: 8px;
 }
 
 .input #field {
     height: 40px;
-    width: 50%;
+    width: 80%;
     text-align: center;
 }
 
-.input #search-button, #display-button {
+.input #search-button, #display-button, #filter-button {
     height: 40px;
     padding: 0 20px;
-    margin-left: 10px; 
 }
 
 .profile {
@@ -65,11 +81,9 @@ header {
     justify-content: center;
     align-items: center;
     flex: 1;
-    max-width: 80%;
-    min-width: 30%;
+    width: 30%;
     flex-direction: column;
     background-color: lightskyblue;
-    margin: 5px;
     border-radius: 8px;
     font-size: larger;
 }
@@ -89,12 +103,163 @@ header {
     align-items: center;
     width: 100%;
     min-height: 100%;
+    gap: 8px;
+    padding: 8px;
 }
 
-@media only screen and (min-width: 660px) {
-    
+.wip-profile {
+    display: flex;
+    width: 400px;
+    height: 300px;
+    background-color: var(--green-background);
+}
+
+.wip-profile * {
+    font-size: 24px;
+    color: white;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 1);
+
+}
+
+.profile-row {
+    display: flex;
+}
+
+.profile-column {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+}
+
+.profile-header {
+    height: 10%;
+    width: 100%;
+    background-color: rgb(172, 100, 207);
+    padding: 5px 3px 3px;
+}
+
+.profile-main {
+    height: 90%;
+    width: 100%;
+    background-color: var(--green-background);
+}
+
+.profile-summary {
+    width: 35%;
+    height: 90%;
+    background-color: var(--green-main);
+    border: 4px solid var(--green-accent);
+    align-items:flex-start;
+    padding: 0 6px;
+    border-radius: 0 4px 4px 0;
+    gap: 2px;
+}
+
+.poke-id {
+    color: var(--yellow);
+}
+
+.profile-img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    background-color: var(--white);
+}
+
+.level-bar {
+    width: 100%;
+    margin-top: auto;
+    justify-content: space-evenly;
+}
+
+.profile-info {
+    width: 65%;
+    height: 95%;
+    margin-top: auto;
+    background-color: #69A197;
+    border-radius: 4px 0 0 0;
+    border: 4px  solid #133128;
+    border-right: none;
+    border-bottom: none;
+}
+
+.owner {
+    height: 30%;
+}
+
+.owner-infobar {
+    height: 74%;
+}
+
+.owner-infobar > .top-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 5px;
+}
+
+.ability {
+    height: 30%;
+}
+
+.ability-infobar {
+    height: 74%;
+}
+
+.trainer-memo {
+    height: 40%;
+}
+
+.info-title { 
+    display: flex;
+    font-size: 20px;
+    background: var(--title-background);
+    padding-left: 35px;
+}
+
+.top-bar {
+    background-color: var(--green-main);
+    border-radius: 8px 8px 0 0;
+    border: 2px solid var(--green-accent);
+    border-bottom: none;
+    height: 50%;
+    padding: 0 6px;
+}
+
+.bottom-bar {
+    background-color: var(--white);
+    border-radius: 0 0 8px 8px;
+    border: 2px solid var(--green-accent);
+    border-top: none;
+    height: 50%;
+    padding: 0 6px;
+}
+
+.trainer-infobar {
+    background-color: var(--white);
+    border-radius:8px;
+    border: 2px solid var(--green-accent);
+    height: 80%;
+}
+
+.trainer-infobar p {
+    color: black;
+    padding: 0 6px;
+}
+
+.bottom-bar > p {
+    color: black;
+}
+
+@media only screen and (min-width: 660px) { /* desktop */
+
+    .input #field {
+        height: 40px;
+        width: 60%;
+        text-align: center;
+    }
+
     .profile {
-        width: 120px;
+        width: 10%;
         padding: 8px;
     }
 

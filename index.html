@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Api Project V2</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="scripts.js" defer></script>
@@ -16,12 +16,73 @@
             <p>Enter an id from 1 to 1025 to see what pokemon it is!</p>
             <div class="wrapper">
                 <input type="text" placeholder="Search for pokemon" id="field">
-                <button id="search-button">Search</button>
+                <div class="button-wrapper">
+                    <button id="search-button">Search</button>
+                    <button id="filter-button">Filter</button>
+                </div>
             </div>
             <p>Or</p>
             <button id="display-button">Display all</button>
         </div>
-        <div class="main-content"></div>
+        <div class="main-content">
+            <div class="wip-profile">
+                <div class="profile-column">
+                    <div class="profile-header profile-row">
+                        POKEMON INFO
+                    </div>
+                    <div class="profile-main profile-row">
+                        <div class="profile-summary profile-column">
+                            <p>poke id</p>
+                            <div class="profile-img">img</div>
+                            <div class="profile-name">
+                                <p class="pokemon-name">NAME</p>
+                                <p class="nickname">/NICKNAME</p>
+                            </div>
+                            <div class="level-bar profile-row">
+                                <div class="pokeball-icon">
+                                    O
+                                </div>
+                                <p>Lv33</p>
+                                <div class="gender">M</div>
+                            </div>
+                        </div>
+                        <div class="profile-info profile-column">
+                            <div class="owner">
+                                <p class="info-title">PROFILE</p>
+                                <div class="owner-infobar">
+                                    <div class="top-bar">
+                                        <p>OT/name</p>
+                                        <p>id:81724071</p>
+                                    </div>
+                                    <div class="bottom-bar profile-row">
+                                        <p>TYPE/</p><div class="type">type</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ability">
+                                <p class="info-title">ABILITY</p>
+                                <div class="ability-infobar">
+                                    <div class="top-bar">
+                                        insomnia
+                                    </div>
+                                    <div class="bottom-bar">
+                                        <p>Prevents sleep</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="trainer-memo">
+                                <p class="info-title">TRAINER MEMO</p>
+                                <div class="trainer-infobar">
+                                    <p>value nature,</p>
+                                    <p>met at (lvl value),</p>
+                                    <p>(value RND ROUTE)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
