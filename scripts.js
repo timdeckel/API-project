@@ -5,11 +5,32 @@ $( () => {
     const NAME_API_URL = "https://api.namnapi.se/v2/names.xml?gender=both&type=firstname&limit=3"
     const API_URL = "https://pokeapi.co/api/v2/pokemon/"
 
-   const getData = async input => {
-        let response = await fetch(API_URL + `${input}`);
-        let data = await response.json();
-        return data;
-   }
+    const pokemonTrainerNames = [
+        'Ash',
+        'Misty',
+        'Brock',
+        'Serena',
+        'Gary',
+        'May',
+        'Cynthia',
+        'Red',
+        'Blue',
+        'Leaf',
+        'Nurse Joy',
+        'Max',
+        'Dawn',
+        'Lance',
+        'Rosa',
+        'Niles',
+        'Steven',
+        'Lillie'
+    ];
+
+    const getData = async input => {
+            let response = await fetch(API_URL + `${input}`);
+            let data = await response.json();
+            return data;
+    }
 
     const getAllPokemon = async () => {
         for(let i = 1 ; i <= 1025 ; i++){
@@ -41,6 +62,32 @@ $( () => {
         }
     }
 
+    const getRadnomLevel = () => {
+        return Math.floor((Math.random() * 35) + 35);
+    }
+
+    const getRandomGenderinfo = (pokemon, genderValue, responseType) => {
+        if (genderValue == 1) {
+            switch (responseType) {
+                case "image":
+                    return pokemon.sprites.front_default;
+                    break;
+                case "icon":
+                    return "images/Male-icon.png";
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            
+        }
+    }
+
+    const getRandomIDNumber = () => {
+        let StringConvertedNumber = Math.floor(734 + Math.random() * 65535)
+        return String(StringConvertedNumber).padStart(5, '0');
+    }
+
     const createPokemonProfile = async pokemon => {
         $('.main-content').append(`
         <div class="profile"> 
@@ -61,11 +108,9 @@ $( () => {
         $('.main-content').empty();
         getAllPokemon();
     })
-    
-   
-    //getAllPokemon()
   
     const createPokeProfile = async pokemon => {
+        let randomGenderValue = Math.floor(Math.random() + 0.5);
         let abilityFlavourText = await getAbilityDescription(pokemon);
         console.log(abilityFlavourText)
         $('.main-content').append(`
@@ -77,17 +122,21 @@ $( () => {
                     <div class="profile-main profile-row">
                         <div class="profile-summary profile-column">
                             <p class="poke-id">No${pokemon.id}</p>
-                            <div class="profile-img">img</div>
+                            <div class="profile-img">
+                                <img src="${getRandomGenderinfo(pokemon, 1, "image")}">
+                            </div>
                             <div class="profile-name">
-                                <p class="pokemon-name">NAME</p>
-                                <p class="nickname">/NICKNAME</p>
+                                <p class="pokemon-name">${pokemon.name}</p>
+                                <p class="nickname">/${pokemon.name}</p>
                             </div>
                             <div class="level-bar profile-row">
                                 <div class="pokeball-icon">
                                     O
                                 </div>
-                                <p>Lv33</p>
-                                <div class="gender">M</div>
+                                <p>Lv${getRadnomLevel()}</p>
+                                <div class="gender">
+                                    <img class="gender-icon" src="${getRandomGenderinfo(pokemon, 1, "icon")}">
+                                </div>
                             </div>
                         </div>
                         <div class="profile-info profile-column">
@@ -95,8 +144,12 @@ $( () => {
                                 <p class="info-title">PROFILE</p>
                                 <div class="owner-infobar">
                                     <div class="top-bar">
-                                        <p>OT/name</p>
-                                        <p>id:81724071</p>
+                                    <div class="profile-row">
+                                        <p>OT/</p>
+                                        <p class="OT-Name">${pokemonTrainerNames[Math.floor(Math.random() * pokemonTrainerNames.length)]}</p>
+                                    </div>
+                                        
+                                        <p>IDNo${getRandomIDNumber()}</p>
                                     </div>
                                     <div class="bottom-bar profile-row">
                                         <p>TYPE/</p><div class="type">type</div>
@@ -128,7 +181,10 @@ $( () => {
             </div>
         `)
     }
-
+    for (let index = 0; index < 80; index++) {
+       // console.log(getRandomIDNumber())
+        
+    }
     // createPokeProfile();
-    getPokemon("6")
+    getPokemon("9")
 });
