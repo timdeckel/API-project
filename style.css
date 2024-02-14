@@ -260,15 +260,22 @@ header {
     border-radius:8px;
     border: 2px solid var(--green-accent);
     height: 80%;
+    padding-left: 6px;
 }
 
 .trainer-infobar p {
     color: black;
-    padding: 0 6px;
+    padding-right: 5px;
+}
+
+#special-memo-text {
+    padding-right: 0px;
+    text-transform: uppercase;
+    color: var(--memo-main-red);
+    text-shadow: 1px 1px 0 var(--memo-secondary-orange);
 }
 
 .bottom-bar > p {
-    
     color: black;
 }
 

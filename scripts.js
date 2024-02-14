@@ -6,25 +6,30 @@ $( () => {
     const API_URL = "https://pokeapi.co/api/v2/pokemon/"
 
     const pokemonTrainerNames = [
-        'Ash',
-        'Misty',
-        'Brock',
-        'Serena',
-        'Gary',
-        'May',
-        'Cynthia',
-        'Red',
-        'Blue',
-        'Leaf',
-        'Nurse Joy',
-        'Max',
-        'Dawn',
-        'Lance',
-        'Rosa',
-        'Niles',
-        'Steven',
-        'Lillie'
+        'Ash','Misty','Brock',
+        'Serena','Gary','May',
+        'Cynthia','Red','Blue',
+        'Leaf','Nurse Joy','Max',
+        'Dawn','Lance','Rosa',
+        'Niles','Steven','Lillie'
     ];
+
+    const pokemonNatures = [
+        'Hardy', 'Lonely', 'Brave', 'Adamant', 'Naughty',
+        'Bold', 'Docile', 'Relaxed', 'Impish', 'Lax',
+        'Timid', 'Hasty', 'Serious', 'Jolly', 'Naive',
+        'Modest', 'Mild', 'Quiet', 'Bashful', 'Rash',
+        'Calm', 'Gentle', 'Sassy', 'Careful', 'Quirky'
+    ];
+
+    const pokemonRoutes = [
+        "Route 101", "Route 102", "Route 103", "Route 104", "Route 105",
+        "Route 106", "Route 107", "Route 108", "Route 109", "Route 110",
+        "Route 111", "Route 112", "Route 113", "Route 114", "Route 115",
+        "Route 116", "Route 117", "Route 118", "Route 119", "Route 120",
+        "Route 121", "Route 122", "Route 123", "Route 124", "Route 125"
+      ];
+      
 
     const getData = async input => {
             let response = await fetch(API_URL + `${input}`);
@@ -39,6 +44,7 @@ $( () => {
         }
     }
 
+    //fixa så den kollar om det finns engelska 
     const getAbilityDescription = async pokemon => {
         let pokemonAbilityUrl = pokemon.abilities[0].ability.url;
         console.log(pokemonAbilityUrl)
@@ -49,7 +55,15 @@ $( () => {
         return text;
     }
 
-    getPokemon = async index => {
+    
+    $('#field').on('keydown', function(keyPress) {
+        if (keyPress.which == 13) {
+            getPokemon($('#field').val());
+        }
+    })
+    
+
+    const getPokemon = async index => {
         try {
             let pokemonData = await getData(index);
             console.log(pokemonData);
@@ -58,12 +72,21 @@ $( () => {
             $('#field').val('');
         } catch (error) {
             $('#field').val('');
-            $('#field').attr("placeholder", "Please enter a whole number from 1 to 1025.")
+            $('#field').attr("placeholder", "Oops! try again!")
+            console.log(error)
         }
     }
 
-    const getRadnomLevel = () => {
+    const getRandomLevel = () => {
         return Math.floor((Math.random() * 35) + 35);
+    }
+
+    const getRandomNature = () => {
+        return pokemonNatures[Math.floor(Math.random()*pokemonNatures.length)];
+    }
+
+    const getRandomRoute = () => {
+        return pokemonRoutes[Math.floor(Math.random()*pokemonRoutes.length)];
     }
 
     const getRandomGenderinfo = (pokemon, genderValue, responseType) => {
@@ -79,7 +102,7 @@ $( () => {
                     break;
             }
         } else {
-            
+            //fixa/ skriv klart
         }
     }
 
@@ -99,9 +122,12 @@ $( () => {
     }
 
     $('#search-button').click(async function(){
-        $('.main-content').empty();
-        let input = $('#field').val();
-        getPokemon(input); 
+        try {
+            getPokemon($('#field').val()); 
+        } catch (error) {
+            
+        }
+        
     })
 
     $('#display-button').click(async function(){
@@ -112,7 +138,6 @@ $( () => {
     const createPokeProfile = async pokemon => {
         let randomGenderValue = Math.floor(Math.random() + 0.5);
         let abilityFlavourText = await getAbilityDescription(pokemon);
-        console.log(abilityFlavourText)
         $('.main-content').append(`
         <div class="wip-profile">
                 <div class="profile-column">
@@ -133,7 +158,7 @@ $( () => {
                                 <div class="pokeball-icon">
                                     O
                                 </div>
-                                <p>Lv${getRadnomLevel()}</p>
+                                <p>Lv${getRandomLevel()}</p>
                                 <div class="gender">
                                     <img class="gender-icon" src="${getRandomGenderinfo(pokemon, 1, "icon")}">
                                 </div>
@@ -170,9 +195,15 @@ $( () => {
                             <div class="trainer-memo">
                                 <p class="info-title">TRAINER MEMO</p>
                                 <div class="trainer-infobar">
-                                    <p>value nature,</p>
-                                    <p>met at (lvl value),</p>
-                                    <p>(value RND ROUTE)</p>
+                                    <div class="profile-row">
+                                       <p id="special-memo-text">${getRandomNature()}</p>&nbsp;<p> nature,</p>
+                                    </div>
+                                    <div class="profile-row">
+                                        <p>met at Lv</p><p id="special-memo-text">${(getRandomLevel() - 33)}</p><p>,</p>
+                                    </div>
+                                    <div class="profile-row">
+                                    <p id="special-memo-text">${getRandomRoute()}</p><p>.</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -182,7 +213,8 @@ $( () => {
         `)
     }
     for (let index = 0; index < 80; index++) {
-       // console.log(getRandomIDNumber())
+        //console.log(getRandomLevel())
+        //console.log("  " + (getRandomLevel()-33) )
         
     }
     // createPokeProfile();
