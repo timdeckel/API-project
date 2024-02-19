@@ -32,9 +32,15 @@ $( () => {
       
 
     const getData = async input => {
+        try {
             let response = await fetch(API_URL + `${input}`);
             let data = await response.json();
             return data;
+        } catch (error) {
+            $('#field').val('');
+            $('#field').attr("placeholder", "Oops! try again!")
+            console.log(error)
+        }
     }
 
     const getAllPokemon = async () => {
@@ -46,27 +52,37 @@ $( () => {
 
     //fixa så den kollar om det finns engelska 
     const getAbilityDescription = async pokemon => {
-        let pokemonAbilityUrl = pokemon.abilities[0].ability.url;
-        console.log(pokemonAbilityUrl)
-        let response = await fetch(pokemonAbilityUrl);
-        let data = await response.json();
-        let text = data.flavor_text_entries[0].flavor_text;
-        console.log(text)
-        return text;
+        try {
+            let pokemonAbilityUrl = pokemon.abilities[0].ability.url;
+                console.log(pokemonAbilityUrl)
+            let response = await fetch(pokemonAbilityUrl);
+            let data = await response.json();
+            let text = data.flavor_text_entries[0].flavor_text;
+                console.log(text)
+            return text;
+        } catch (error) {
+            console.log('Error fetching data: ', error);
+        }
     }
-
     
     $('#field').on('keydown', function(keyPress) {
         if (keyPress.which == 13) {
-            getPokemon($('#field').val());
+            try {
+                 getPokemon($('#field').val());
+            } catch (error) {
+                $('#field').val('');
+                $('#field').attr("placeholder", "Oops! try again!")
+                console.log(error)
+            }
+           
         }
     })
-    
+
 
     const getPokemon = async index => {
         try {
             let pokemonData = await getData(index);
-            console.log(pokemonData);
+            //console.log(pokemonData);
             // createPokemonProfile(pokemonData);
             createPokeProfile(pokemonData);
             $('#field').val('');
@@ -89,6 +105,7 @@ $( () => {
         return pokemonRoutes[Math.floor(Math.random()*pokemonRoutes.length)];
     }
 
+    // was gonna add more functonallity but i realized its uneccessery and will take to much time
     const getRandomGenderinfo = (pokemon, genderValue, responseType) => {
         if (genderValue == 1) {
             switch (responseType) {
@@ -102,7 +119,16 @@ $( () => {
                     break;
             }
         } else {
-            //fixa/ skriv klart
+            switch (responseType) {
+                case "image":
+                    return pokemon.sprites.front_female;
+                    break;
+                case "icon":
+                    return "images/Female-icon.png";
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -136,81 +162,84 @@ $( () => {
     })
   
     const createPokeProfile = async pokemon => {
-        let randomGenderValue = Math.floor(Math.random() + 0.5);
-        let abilityFlavourText = await getAbilityDescription(pokemon);
-        $('.main-content').append(`
-        <div class="wip-profile">
-                <div class="profile-column">
-                    <div class="profile-header profile-row">
-                        POKEMON INFO
-                    </div>
-                    <div class="profile-main profile-row">
-                        <div class="profile-summary profile-column">
-                            <p class="poke-id">No${pokemon.id}</p>
-                            <div class="profile-img">
-                                <img src="${getRandomGenderinfo(pokemon, 1, "image")}">
-                            </div>
-                            <div class="profile-name">
-                                <p class="pokemon-name">${pokemon.name}</p>
-                                <p class="nickname">/${pokemon.name}</p>
-                            </div>
-                            <div class="level-bar profile-row">
-                                <div class="pokeball-icon">
-                                    O
-                                </div>
-                                <p>Lv${getRandomLevel()}</p>
-                                <div class="gender">
-                                    <img class="gender-icon" src="${getRandomGenderinfo(pokemon, 1, "icon")}">
-                                </div>
-                            </div>
+        try {
+            let abilityFlavourText = await getAbilityDescription(pokemon);
+            $('.main-content').append(`
+            <div class="wip-profile">
+                    <div class="profile-column">
+                        <div class="profile-header profile-row">
+                            POKEMON INFO
                         </div>
-                        <div class="profile-info profile-column">
-                            <div class="owner">
-                                <p class="info-title">PROFILE</p>
-                                <div class="owner-infobar">
-                                    <div class="top-bar">
-                                    <div class="profile-row">
-                                        <p>OT/</p>
-                                        <p class="OT-Name">${pokemonTrainerNames[Math.floor(Math.random() * pokemonTrainerNames.length)]}</p>
+                        <div class="profile-main profile-row">
+                            <div class="profile-summary profile-column">
+                                <p class="poke-id">No${pokemon.id}</p>
+                                <div class="profile-img">
+                                    <img src="${getRandomGenderinfo(pokemon, 1, "image")}">
+                                </div>
+                                <div class="profile-name">
+                                    <p class="pokemon-name">${pokemon.name}</p>
+                                    <p class="nickname">/${pokemon.name}</p>
+                                </div>
+                                <div class="level-bar profile-row">
+                                    <div class="pokeball-icon">
+                                        O
                                     </div>
-                                        
-                                        <p>IDNo${getRandomIDNumber()}</p>
-                                    </div>
-                                    <div class="bottom-bar profile-row">
-                                        <p>TYPE/</p><div class="type">type</div>
+                                    <p>Lv${getRandomLevel()}</p>
+                                    <div class="gender">
+                                        <img class="gender-icon" src="${getRandomGenderinfo(pokemon, Math.floor(Math.random() + 0.5), "icon")}">
                                     </div>
                                 </div>
                             </div>
-                            <div class="ability">
-                                <p class="info-title">ABILITY</p>
-                                <div class="ability-infobar">
-                                    <div class="top-bar">
-                                        ${pokemon.abilities[0].ability.name}
-                                    </div>
-                                    <div class="bottom-bar">
-                                        <p>${abilityFlavourText}</p>
+                            <div class="profile-info profile-column">
+                                <div class="owner">
+                                    <p class="info-title">PROFILE</p>
+                                    <div class="owner-infobar">
+                                        <div class="top-bar">
+                                        <div class="profile-row">
+                                            <p>OT/</p>
+                                            <p class="OT-Name">${pokemonTrainerNames[Math.floor(Math.random() * pokemonTrainerNames.length)]}</p>
+                                        </div>
+                                            
+                                            <p>IDNo${getRandomIDNumber()}</p>
+                                        </div>
+                                        <div class="bottom-bar profile-row">
+                                            <p>TYPE/</p><div class="type">type</div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="trainer-memo">
-                                <p class="info-title">TRAINER MEMO</p>
-                                <div class="trainer-infobar">
-                                    <div class="profile-row">
-                                       <p id="special-memo-text">${getRandomNature()}</p>&nbsp;<p> nature,</p>
+                                <div class="ability">
+                                    <p class="info-title">ABILITY</p>
+                                    <div class="ability-infobar">
+                                        <div class="top-bar">
+                                            ${pokemon.abilities[0].ability.name}
+                                        </div>
+                                        <div class="bottom-bar">
+                                            <p>${abilityFlavourText}</p>
+                                        </div>
                                     </div>
-                                    <div class="profile-row">
-                                        <p>met at Lv</p><p id="special-memo-text">${(getRandomLevel() - 33)}</p><p>,</p>
-                                    </div>
-                                    <div class="profile-row">
-                                    <p id="special-memo-text">${getRandomRoute()}</p><p>.</p>
+                                </div>
+                                <div class="trainer-memo">
+                                    <p class="info-title">TRAINER MEMO</p>
+                                    <div class="trainer-infobar">
+                                        <div class="profile-row">
+                                           <p id="special-memo-text">${getRandomNature()}</p>&nbsp;<p> nature,</p>
+                                        </div>
+                                        <div class="profile-row">
+                                            <p>met at Lv</p><p id="special-memo-text">${(getRandomLevel() - 33)}</p><p>,</p>
+                                        </div>
+                                        <div class="profile-row">
+                                        <p id="special-memo-text">${getRandomRoute()}</p><p>.</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        `)
+            `)
+        } catch (error) {
+            console.log(`Error in the creation process ${error}`)   
+        }
     }
     for (let index = 0; index < 80; index++) {
         //console.log(getRandomLevel())
